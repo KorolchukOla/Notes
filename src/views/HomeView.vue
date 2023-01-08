@@ -1,22 +1,16 @@
 <template>
   <div class="card">
-    <DataView
-      :value="products"
-      :layout="layout"
-      :paginator="true"
-      :rows="9"
-      :sortOrder="sortOrder"
-      :sortField="sortField"
-    >
+    <DataView :value="products" :layout="layout" :paginator="true" :rows="9">
       <template #header>
         <div class="grid grid-nogutter">
           <div class="col-6" style="text-align: left">
-            <Dropdown
-              v-model="sortKey"
-              :options="sortOptions"
-              optionLabel="label"
-              placeholder="Sort By Name"
-            />
+            <span class="p-input-icon-left">
+              <i class="pi pi-search" />
+              <InputText
+                v-model="searchKey"
+                placeholder="Keyword Search"
+                @input="searchUserByEmail"
+            /></span>
           </div>
           <div class="col-6" style="text-align: right">
             <DataViewLayoutOptions v-model="layout" />
@@ -82,8 +76,7 @@
 import Button from "primevue/button";
 import DataView from "primevue/dataview";
 import DataViewLayoutOptions from "primevue/dataviewlayoutoptions";
-import Dropdown from "primevue/dropdown";
-import Rating from "primevue/rating";
+import InputText from "primevue/inputtext";
 import { ref, onMounted } from "vue";
 import { fakeApiStore } from "../stores";
 
@@ -91,13 +84,13 @@ const store = fakeApiStore();
 const products = ref();
 
 const layout = ref("grid");
-const sortKey = ref();
-const sortOrder = ref();
-const sortField = ref();
-const sortOptions = ref([
-  { label: "Price High to Low", value: "!name" },
-  { label: "Price Low to High", value: "name" },
-]);
+const searchKey = ref("");
+
+const searchUserByEmail = () => {
+  products.value = store.storeDatas.filter((user) =>
+    user.email.toLowerCase().includes(searchKey.value.toLowerCase())
+  );
+};
 
 onMounted(async () => {
   await store.getDatas();
