@@ -1,6 +1,6 @@
 import { reactive, toRefs } from "vue";
 import { defineStore } from "pinia";
-import { getFakeResApi } from "../service";
+import { deleteFakeUserById, getFakeResApi } from "../service";
 
 export const fakeApiStore = defineStore("fakeApi", () => {
   const state = reactive({
@@ -12,5 +12,10 @@ export const fakeApiStore = defineStore("fakeApi", () => {
     state.storeDatas = datas;
   };
 
-  return { ...toRefs(state), getDatas };
+  const deleteFakeUser = async (id) => {
+    console.log("here work");
+    await deleteFakeUserById(id);
+  };
+
+  return { ...toRefs(state), getDatas, deleteFakeUser };
 });

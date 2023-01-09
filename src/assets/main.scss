@@ -230,15 +230,16 @@
     border-radius: 10px;
     margin-bottom: 2rem;
   }
+
   .p-grid.p-nogutter.grid.grid-nogutter {
     display: flex;
     flex-wrap: wrap;
   }
-  
 }
 
 @mixin fakeApi {
   @include base;
+
   .card {
     background: #ffffff;
     padding: 2rem;
@@ -246,6 +247,10 @@
       0 1px 3px 0 rgba(0, 0, 0, 0.12);
     border-radius: 4px;
     margin-bottom: 2rem;
+  }
+
+  .product-grid-item {
+    height: 97.5%;
   }
 
   .p-dropdown {
@@ -317,7 +322,20 @@
     .product-grid-item-bottom {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+    }
+
+    .p-button {
+      margin: 5px;
+    }
+
+    .uniqueBtn {
+      width: 84%;
+    }
+
+    .gridDescription {
+      align-items: flex-start;
+      display: flex;
+      flex-direction: column;
     }
 
     img {
@@ -365,5 +383,29 @@
         width: 100%;
       }
     }
+  }
+}
+
+
+@mixin editUser {
+  @include base;
+
+  .p-button {
+    margin: 0.3rem .5rem;
+    min-width: 10rem;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .confirmation-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .p-dialog .p-button {
+    min-width: 6rem;
   }
 }
