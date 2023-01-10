@@ -160,10 +160,8 @@ const updateUser = async (user) => {
 };
 
 const addUser = async (user) => {
-  console.log("user", user);
-  displayModalAddUser.value = false;
-  // await store.updateFakeUser(selectedUser.value.id, user);
-  // await getUsers();
+  await store.addFakeUser(user);
+  await getUsers();
 };
 
 onMounted(async () => {

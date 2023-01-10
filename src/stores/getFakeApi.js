@@ -3,6 +3,7 @@ import { defineStore } from "pinia";
 import {
   deleteFakeUserById,
   getFakeResApi,
+  postFakeUser,
   updateFakeUserById,
 } from "../service";
 
@@ -24,5 +25,15 @@ export const fakeApiStore = defineStore("fakeApi", () => {
     await updateFakeUserById(id, user);
   };
 
-  return { ...toRefs(state), getDatas, deleteFakeUser, updateFakeUser };
+  const addFakeUser = async (user) => {
+    await postFakeUser(user);
+  };
+
+  return {
+    ...toRefs(state),
+    getDatas,
+    deleteFakeUser,
+    updateFakeUser,
+    addFakeUser,
+  };
 });
