@@ -384,6 +384,17 @@
       }
     }
   }
+
+  .headerBtns {
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .headerBtnTrash {
+    height: 34px;
+  }
 }
 
 
@@ -407,5 +418,13 @@
 
   .p-dialog .p-button {
     min-width: 6rem;
+  }
+
+  .p-inputtext {
+    width: 100%;
+  }
+
+  .p-input-icon-right {
+    width: 100%;
   }
 }

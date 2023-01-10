@@ -9,33 +9,34 @@
   >
     <div class="field pt-4">
       <div class="p-float-label p-input-icon-right">
-        <i class="pi pi-envelope" />
-        <InputText id="name" v-model="name" />
+        <i class="pi pi-user" />
+        <InputText id="name" v-model="user.name" />
         <label for="name">Name</label>
       </div>
     </div>
     <div class="field pt-3">
       <div class="p-float-label p-input-icon-right">
         <i class="pi pi-envelope" />
-        <InputText id="email" v-model="email" />
+        <InputText id="email" v-model="user.email" />
         <label for="email">Email</label>
       </div>
     </div>
     <div class="field pt-3">
       <div class="p-float-label p-input-icon-right">
-        <i class="pi pi-envelope" />
-        <InputText id="body" v-model="body" />
-        <label for="body">Body</label>
+        <i class="pi pi-linkedin" />
+        <InputText id="body" v-model="user.body" />
+        <label for="body">Profesion</label>
+      </div>
+    </div>
+    <div class="field pt-3">
+      <div class="p-float-label p-input-icon-right">
+        <i class="pi pi-image" />
+        <InputText id="body" v-model="user.logo" />
+        <label for="body">Profesion logo</label>
       </div>
     </div>
     <template #footer>
-      <Button
-        label="No"
-        icon="pi pi-times"
-        @click="closeModal"
-        class="p-button-text"
-      />
-      <Button label="Yes" icon="pi pi-check" @click="closeModal" autofocus />
+      <Button label="Save" icon="pi pi-check" @click="updateUser" autofocus />
     </template>
   </Dialog>
 </template>
@@ -44,18 +45,24 @@
 import Button from "primevue/button";
 import Dialog from "primevue/dialog";
 import InputText from "primevue/inputtext";
-import { ref } from "vue";
-const props = defineProps({ selectedUser: {} });
+import { ref, reactive } from "vue";
+
 const displayModal = ref(true);
-const email = ref(props.selectedUser.email);
-const name = ref(props.selectedUser.name);
-const body = ref(props.selectedUser.body);
 
-const emit = defineEmits(["closeModal"]);
+const props = defineProps({ selectedUser: {} });
 
-const closeModal = () => {
+const user = reactive({
+  email: props.selectedUser.email,
+  name: props.selectedUser.name,
+  body: props.selectedUser.body,
+  logo: props.selectedUser.logo,
+});
+
+const emit = defineEmits(["updateUser"]);
+
+const updateUser = () => {
   displayModal.value = false;
-  emit("closeModal");
+  emit("updateUser", user);
 };
 </script>
 <style lang="scss" scoped>

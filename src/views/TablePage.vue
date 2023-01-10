@@ -9,8 +9,13 @@
               <InputText v-model="searchKey" placeholder="Keyword Search"
             /></span>
           </div>
-          <div class="col-6" style="text-align: right">
+          <div class="col-6 headerBtns">
             <DataViewLayoutOptions v-model="layout" />
+            <Button
+              class="ml-2 headerBtnTrash"
+              icon="pi pi-plus"
+              @click="deleteUser(slotProps.data.id)"
+            ></Button>
           </div>
         </div>
       </template>
@@ -43,9 +48,12 @@
             <div class="product-list-action">
               <Button
                 icon="pi pi-trash"
-                :disabled="slotProps.data === 'OUTOFSTOCK'"
+                @click="deleteUser(slotProps.data.id)"
               ></Button>
-              <Button icon="pi pi-pencil" @click="changeUser"></Button>
+              <Button
+                icon="pi pi-pencil"
+                @click="changeUser(slotProps.data)"
+              ></Button>
             </div>
           </div>
         </div>
@@ -91,7 +99,10 @@
     </DataView>
   </div>
   <div v-if="displayModal">
-    <EditUserPage :selectedUser="selectedUser" @closeModal="closeModal" />
+    <EditUserPage
+      :selectedUser="selectedUser"
+      @updateUser="(user) => updateUser(user)"
+    />
   </div>
 </template>
 
@@ -112,27 +123,34 @@ const selectedUser = ref();
 const layout = ref("grid");
 const searchKey = ref("");
 
-const deleteUser = (id) => {
-  store.deleteFakeUser(id);
-};
-
 const changeUser = (data) => {
   displayModal.value = true;
   selectedUser.value = data;
 };
 
-const closeModal = () => {
+const getUsers = async () => {
+  await store.getDatas();
+  products.value = store.storeDatas;
+};
+
+const deleteUser = async (id) => {
+  await store.deleteFakeUser(id);
+  await getUsers();
+};
+
+const updateUser = async (user) => {
   displayModal.value = false;
+  await store.updateFakeUser(selectedUser.value.id, user);
+  await getUsers();
 };
 
 onMounted(async () => {
-  await store.getDatas();
-  products.value = store.storeDatas;
+  await getUsers();
 });
 
 watch(searchKey, () => {
   products.value = store.storeDatas.filter((user) =>
-    user.email.toLowerCase().includes(searchKey.value.toLowerCase())
+    user.name.toLowerCase().includes(searchKey.value.toLowerCase())
   );
 });
 </script>

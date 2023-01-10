@@ -10,5 +10,17 @@ export const deleteFakeUserById = async (id) => {
       method: "DELETE",
     }
   );
-  console.log("And here work?", id, data.json());
+};
+
+export const updateFakeUserById = async (id, userData) => {
+  const data = await fetch(
+    "https://retoolapi.dev/V3QUyT/data/" + id,
+    {
+      method: "PUT",
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8' // Indicates the content 
+       },
+      body: JSON.stringify(userData)
+    }
+  );
 };
