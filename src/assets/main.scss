@@ -324,6 +324,15 @@
       align-items: center;
     }
 
+    .logo {
+      margin: 32px 0;
+      height: 128px;
+    }
+
+    .logoInner {
+      margin: 0;
+    }
+
     .p-button {
       margin: 5px;
     }
@@ -419,7 +428,9 @@
   .p-dialog .p-button {
     min-width: 6rem;
   }
+}
 
+@mixin inputData {
   .p-inputtext {
     width: 100%;
   }

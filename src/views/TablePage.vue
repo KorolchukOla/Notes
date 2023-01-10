@@ -14,7 +14,7 @@
             <Button
               class="ml-2 headerBtnTrash"
               icon="pi pi-plus"
-              @click="deleteUser(slotProps.data.id)"
+              @click="changeDisplayModal"
             ></Button>
           </div>
         </div>
@@ -71,7 +71,7 @@
             <div class="product-grid-item-content">
               <div class="product-name pt-3">{{ slotProps.data.name }}</div>
               <div class="product-description pt-3 gridDescription">
-                <div class="pb-2">
+                <div>
                   <b>Email: </b>
                   {{ slotProps.data.email }}
                 </div>
@@ -80,7 +80,13 @@
                   {{ slotProps.data.body }}
                 </div>
               </div>
-              <img :src="slotProps.data.logo" :alt="slotProps.data.name" />
+              <div class="logo">
+                <img
+                  class="logoInner"
+                  :src="slotProps.data.logo"
+                  :alt="slotProps.data.name"
+                />
+              </div>
             </div>
             <div class="product-grid-item-bottom">
               <Button
@@ -104,6 +110,9 @@
       @updateUser="(user) => updateUser(user)"
     />
   </div>
+  <div v-if="displayModalAddUser">
+    <AddUser @addUser="(user) => addUser(user)" />
+  </div>
 </template>
 
 <script setup>
@@ -113,11 +122,13 @@ import DataViewLayoutOptions from "primevue/dataviewlayoutoptions";
 import InputText from "primevue/inputtext";
 import { ref, onMounted, watch } from "vue";
 import { fakeApiStore } from "../stores";
-import EditUserPage from "./EditUserPage.vue";
+import EditUserPage from "../components/EditUserPage.vue";
+import AddUser from "../components/AddUser.vue";
 
 const store = fakeApiStore();
 const products = ref();
 const displayModal = ref(false);
+const displayModalAddUser = ref(false);
 const selectedUser = ref();
 
 const layout = ref("grid");
@@ -126,6 +137,10 @@ const searchKey = ref("");
 const changeUser = (data) => {
   displayModal.value = true;
   selectedUser.value = data;
+};
+
+const changeDisplayModal = (data) => {
+  displayModalAddUser.value = true;
 };
 
 const getUsers = async () => {
@@ -142,6 +157,13 @@ const updateUser = async (user) => {
   displayModal.value = false;
   await store.updateFakeUser(selectedUser.value.id, user);
   await getUsers();
+};
+
+const addUser = async (user) => {
+  console.log("user", user);
+  displayModalAddUser.value = false;
+  // await store.updateFakeUser(selectedUser.value.id, user);
+  // await getUsers();
 };
 
 onMounted(async () => {
